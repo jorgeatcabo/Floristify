@@ -1,7 +1,7 @@
 /**
- * Fields in a request to update a single TODO item.
+ * Fields in a request to update a single product item.
  */
-export interface UpdateTodoRequest {
+export interface UpdateProductRequest {
   name: string
   category: string
   price: number

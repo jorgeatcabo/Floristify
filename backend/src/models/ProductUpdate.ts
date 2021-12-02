@@ -1,4 +1,4 @@
-export interface TodoUpdate {
+export interface ProductUpdate {
   name: string
   category: string
   price: number

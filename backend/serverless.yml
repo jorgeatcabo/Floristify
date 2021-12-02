@@ -63,7 +63,7 @@ functions:
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
   CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+    handler: src/lambda/http/createProduct.handler
     events:
       - http:
           method: post
@@ -111,7 +111,7 @@ resources:
       Properties:
     
     # TODO: Create a DynamoDB table with local secondary index and a composite key
-    TodosTable:
+    ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
 
