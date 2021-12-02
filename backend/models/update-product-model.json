@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "stock": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price",
+    "description",
+    "stock"
+  ],
+  "additionalProperties": false
+}

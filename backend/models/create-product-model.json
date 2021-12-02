@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "price": {
+      "type": "number",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "description": {
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "stock": {
+      "type": "number",
+      "pattern": "^(?!\\s*$).+"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price",
+    "description",
+    "stock"
+  ],
+  "additionalProperties": false
+}
