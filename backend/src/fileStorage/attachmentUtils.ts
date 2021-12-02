@@ -3,8 +3,6 @@ import * as AWSXRay from 'aws-xray-sdk'
 
 const XAWS = AWSXRay.captureAWS(AWS)
 
-// TODO: Implement the fileStogare logic
-
 const s3 = new XAWS.S3({
   signatureVersion: 'v4'
 });
@@ -12,14 +10,14 @@ const s3 = new XAWS.S3({
 const bucketName = process.env.ATTACHMENT_S3_BUCKET
 const urlExpiration = process.env.SIGNED_URL_EXPIRATION
 
-export async function createAttachmentPresignedUrl(todoId: string): Promise<string> {
+export async function createAttachmentPresignedUrl(productId: string): Promise<string> {
   return s3.getSignedUrl('putObject', {
       Bucket: bucketName,
-      Key: `${todoId}.jpg`,
+      Key: `${productId}.jpg`,
       Expires: parseInt(urlExpiration)
   });
 }
 
-export function getAttachmentUrl(todoId: string) {
-  return `https://${bucketName}.s3.amazonaws.com/${todoId}`
+export function getAttachmentUrl(productId: string) {
+  return `https://${bucketName}.s3.amazonaws.com/${productId}`
 }

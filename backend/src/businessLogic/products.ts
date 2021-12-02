@@ -14,7 +14,7 @@ export async function getProductsForUser(userId: string): Promise<ProductItem[]>
     return productsAccess.getProductsForUser(userId);
 }
 
-export async function createProduct(createProductRequest: CreateProductRequest, userId: string): Promise<TodoItem> {
+export async function createProduct(createProductRequest: CreateProductRequest, userId: string): Promise<ProductItem> {
     logger.info('createProduct start...');
     const productId = uuid.v4();
     const url = getAttachmentUrl(productId);
@@ -49,5 +49,5 @@ export async function updateProduct(updateProductRequest: UpdateProductRequest, 
 
 export async function deleteProduct(productId: string, userId: string): Promise<void> {
     logger.info('deleteProduct start...');
-    return productsAccess.deleteTodo(productId, userId);
+    return productsAccess.deleteProduct(productId, userId);
 }

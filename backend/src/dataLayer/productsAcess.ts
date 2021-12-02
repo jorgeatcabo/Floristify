@@ -11,12 +11,10 @@ const XAWS = AWSXRay.captureAWS(AWS)
 
 const logger = createLogger('ProductsAccess')
 
-// TODO: Implement the dataLayer logic
-
 export class ProductsAccess {
   constructor(
       private readonly docClient: DocumentClient = createDynamoDBClient(),
-      private readonly productsTable = process.env.TODOS_TABLE
+      private readonly productsTable = process.env.PRODUCTS_TABLE
   ) {}
 
   async getProductsForUser(userId: string): Promise<ProductItem[]> {
@@ -66,12 +64,12 @@ export class ProductsAccess {
       }).promise();
   } 
 
-  async deleteTodo(todoId: string, userId: string): Promise<void>{
-      logger.info(`Deleting todo with id ${todoId}`);
+  async deleteProduct(productId: string, userId: string): Promise<void>{
+      logger.info(`Deleting product with id ${productId}`);
       await this.docClient.delete({
           TableName: this.productsTable,
           Key: {
-              todoId,
+            productId,
               userId
           }
       }).promise();
