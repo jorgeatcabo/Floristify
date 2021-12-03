@@ -1,6 +1,6 @@
 org: jorgeatcabo2021
-app: serverless-todo-app
-service: serverless-todo-app
+app: serverless-floristify-app
+service: serverless-floristify-app
 
 plugins:
   - serverless-webpack
