@@ -53,15 +53,16 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
   }
 
   handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductPrice: event.target.value })
+    this.setState({ newProductPrice: event.target.valueAsNumber })
   }
+
 
   handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ newProductDescription: event.target.value })
   }
 
   handleStockChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newStockName: event.target.value })
+    this.setState({ newProductStock: event.target.valueAsNumber })
   }
 
 
@@ -83,9 +84,9 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
         products: [...this.state.products, newProduct],
         newProductName: '',
         newProductCategory: '',
-        newProductPrice: '',
+        newProductPrice: 0,
         newProductDescription: '',
-        newProductStock: ''
+        newProductStock: 0
       })
     } catch {
       alert('Product creation failed')
@@ -160,7 +161,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
             }}
             fluid
             actionPosition="left"
-            placeholder="To change the world..."
+            placeholder="Name"
             onChange={this.handleNameChange}
           />
           <Input
@@ -173,6 +174,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
             fluid
             actionPosition="left"
             placeholder="Price"
+            type="number"
             onChange={this.handlePriceChange}
           />
           <Input
@@ -185,6 +187,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
             fluid
             actionPosition="left"
             placeholder="Stock"
+            type="number"
             onChange={this.handleStockChange}
           />
 

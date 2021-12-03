@@ -97,10 +97,10 @@ export default class App extends Component<AppProps, AppState> {
         />
 
         <Route
-          path="/todos/:todoId/edit"
+          path="/products/:productId/edit"
           exact
           render={(props) => {
-            return <EditTodo {...props} auth={this.props.auth} />
+            return <EditProduct {...props} auth={this.props.auth} />
           }}
         />
 
