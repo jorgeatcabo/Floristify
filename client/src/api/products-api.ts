@@ -30,10 +30,10 @@ export async function createProduct(
   return response.data.item
 }
 
-export async function patchTodo(
+export async function patchProduct(
   idToken: string,
   productId: string,
-  updatedTodo: UpdateProductRequest
+  updatedProduct: UpdateProductRequest
 ): Promise<void> {
   await Axios.patch(`${apiEndpoint}/products/${productId}`, JSON.stringify(updatedProduct), {
     headers: {
