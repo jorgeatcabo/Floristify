@@ -4,19 +4,31 @@ import update from 'immutability-helper'
 import * as React from 'react'
 import {
   Button,
-  Checkbox,
   Divider,
   Grid,
   Header,
   Icon,
   Input,
   Image,
-  Loader
+  Loader,
+  Select,
+  Dropdown
 } from 'semantic-ui-react'
 
 import { createProduct, deleteProduct, getProducts, patchProduct } from '../api/products-api'
 import Auth from '../auth/Auth'
 import { Product } from '../types/Product'
+
+const categories = [
+  { key: 'ar', value: 'Archids', text: 'Archids' },
+  { key: 'az', value: 'Azalea', text: 'Azalea' },
+  { key: 'cr', value: 'Carnation', text: 'Carnation' },
+  { key: 'dh', value: 'Dahlia', text: 'Dahlia' },
+  { key: 'gr', value: 'Gardenia', text: 'Gardenia' },
+  { key: 'pt', value: 'Petunia', text: 'Petunia' },
+  { key: 'rs', value: 'Rose', text: 'Rose' },
+  { key: 'tl', value: 'Tulipan', text: 'Tulipan' },
+]
 
 interface ProductsProps {
   auth: Auth
@@ -48,9 +60,14 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
     this.setState({ newProductName: event.target.value })
   }
 
-  handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductCategory: event.target.value })
-  }
+  // handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   this.setState({ newProductCategory: event.target.value })
+  // }
+
+
+ dropdownChange = (event: React.SyntheticEvent<HTMLElement>, data:any) => {
+  this.setState({newProductCategory:data.value})
+}
 
   handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ newProductPrice: event.target.valueAsNumber })
@@ -164,12 +181,21 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
             placeholder="Name"
             onChange={this.handleNameChange}
           />
-          <Input
+          {/* <Input
             fluid
             actionPosition="left"
             placeholder="Category"
             onChange={this.handleCategoryChange}
-          />
+          /> */}
+          
+          <Dropdown
+    placeholder='Select Category'
+    fluid
+    selection
+    options={categories}
+    value={this.state.newProductCategory}
+    onChange={this.dropdownChange}
+  />
           <Input
             fluid
             actionPosition="left"
