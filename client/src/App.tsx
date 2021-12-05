@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Route, Router, Switch } from 'react-router-dom'
-import { Grid, Menu, Segment } from 'semantic-ui-react'
+import { Grid, Menu, Segment,Icon } from 'semantic-ui-react'
 
 import Auth from './auth/Auth'
 import { EditProduct } from './components/EditProduct'
@@ -38,9 +38,13 @@ export default class App extends Component<AppProps, AppState> {
       <div>
         <Segment style={{ padding: '8em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
-            <Grid.Row>
+          <Grid.Row>
+            
               <Grid.Column width={16}>
                 <Router history={this.props.history}>
+
+                  <h1>Floristify Backend</h1>
+
                   {this.generateMenu()}
 
                   {this.generateCurrentPage()}
@@ -55,13 +59,25 @@ export default class App extends Component<AppProps, AppState> {
 
   generateMenu() {
     return (
-      <Menu>
-        <Menu.Item name="home">
+     
+      <Menu compact icon='labeled'>
+
+        <Menu.Item name="home" >
+          <Icon name='home' />
           <Link to="/">Home</Link>
         </Menu.Item>
 
-        <Menu.Menu position="right">{this.logInLogOutButton()}</Menu.Menu>
-      </Menu>
+        <Menu.Item name='user' >
+          <Icon name='user' />
+          {this.logInLogOutButton()}
+        </Menu.Item>
+
+        <Menu.Item name="shopping cart" >
+          <Icon name='shopping cart' />
+          <Link to="/store">My Store</Link>
+        </Menu.Item>      
+
+    </Menu>
     )
   }
 
@@ -103,7 +119,13 @@ export default class App extends Component<AppProps, AppState> {
             return <EditProduct {...props} auth={this.props.auth} />
           }}
         />
-
+        <Route
+          path="/store"
+          exact
+          render={(props) => {
+            return <Products {...props} auth={this.props.auth} />
+          }}
+        />
         <Route component={NotFound} />
       </Switch>
     )

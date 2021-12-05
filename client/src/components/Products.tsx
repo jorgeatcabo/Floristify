@@ -11,7 +11,6 @@ import {
   Input,
   Image,
   Loader,
-  Select,
   Dropdown
 } from 'semantic-ui-react'
 
@@ -60,12 +59,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
     this.setState({ newProductName: event.target.value })
   }
 
-  // handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   this.setState({ newProductCategory: event.target.value })
-  // }
-
-
- dropdownChange = (event: React.SyntheticEvent<HTMLElement>, data:any) => {
+  handleCategoryChange = (event: React.SyntheticEvent<HTMLElement>, data:any) => {
   this.setState({newProductCategory:data.value})
 }
 
@@ -87,9 +81,9 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
     this.props.history.push(`/products/${productId}/edit`)
   }
 
-  onProductCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
+
+  onProductCreate = async () => {
     try {
-      //const dueDate = this.calculateDueDate()
       const newProduct = await createProduct(this.props.auth.getIdToken(), {
         name: this.state.newProductName,
         category:this.state.newProductCategory,
@@ -155,11 +149,11 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
   render() {
     return (
       <div>
-        <Header as="h1">Products</Header>
-
+     
         {this.renderCreateProductInput()}
-
+        <h1>Products</h1>
         {this.renderProducts()}
+
       </div>
     )
   }
@@ -168,33 +162,19 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
     return (
       <Grid.Row>
         <Grid.Column width={16}>
-          <Input
-            action={{
-              color: 'teal',
-              labelPosition: 'left',
-              icon: 'add',
-              content: 'New task',
-              onClick: this.onProductCreate
-            }}
+        <Input
             fluid
             actionPosition="left"
             placeholder="Name"
             onChange={this.handleNameChange}
           />
-          {/* <Input
-            fluid
-            actionPosition="left"
-            placeholder="Category"
-            onChange={this.handleCategoryChange}
-          /> */}
-          
           <Dropdown
     placeholder='Select Category'
     fluid
     selection
     options={categories}
     value={this.state.newProductCategory}
-    onChange={this.dropdownChange}
+    onChange={this.handleCategoryChange}
   />
           <Input
             fluid
@@ -216,6 +196,13 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
             type="number"
             onChange={this.handleStockChange}
           />
+       
+          <Button
+          color="green" inverted
+          fluid
+          onClick={this.onProductCreate}>
+          <Icon name="checkmark" /> Add Product
+          </Button>
 
         </Grid.Column>
         <Grid.Column width={16}>
@@ -249,12 +236,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
         {this.state.products.map((product, pos) => {
           return (
             <Grid.Row key={product.productId}>
-              {/* <Grid.Column width={1} verticalAlign="middle">
-                <Checkbox
-                  onChange={() => this.onProductCheck(pos)}
-                  checked={product.done}
-                />
-              </Grid.Column> */}
+            
               <Grid.Column width={10} verticalAlign="middle">
                 {product.name}
               </Grid.Column>
