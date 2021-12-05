@@ -66,17 +66,11 @@ export default class App extends Component<AppProps, AppState> {
           <Icon name='home' />
           <Link to="/">Home</Link>
         </Menu.Item>
-
-        <Menu.Item name='user' >
-          <Icon name='user' />
+       
           {this.logInLogOutButton()}
-        </Menu.Item>
 
-        <Menu.Item name="shopping cart" >
-          <Icon name='shopping cart' />
-          <Link to="/store">My Store</Link>
-        </Menu.Item>      
-
+          {this.storetButton()}
+           
     </Menu>
     )
   }
@@ -85,18 +79,31 @@ export default class App extends Component<AppProps, AppState> {
     if (this.props.auth.isAuthenticated()) {
       return (
         <Menu.Item name="logout" onClick={this.handleLogout}>
+          <Icon name='user'  />
           Log Out
         </Menu.Item>
       )
     } else {
       return (
         <Menu.Item name="login" onClick={this.handleLogin}>
+          <Icon name='user'  />
           Log In
         </Menu.Item>
       )
     }
   }
 
+  storetButton() {
+    if (this.props.auth.isAuthenticated()) {
+      return (
+        <Menu.Item name="shopping cart" >
+        <Icon name='shopping cart' />
+        <Link to="/store" target='_blank'>My Store</Link>
+      </Menu.Item>  
+      )
+
+    }
+  }
   generateCurrentPage() {
     if (!this.props.auth.isAuthenticated()) {
       return <LogIn auth={this.props.auth} />
