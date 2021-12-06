@@ -1,31 +1,16 @@
 import { History } from 'history'
-import update from 'immutability-helper'
 import * as React from 'react'
 import {
-  Button,
-  Divider,
   Grid,
   Icon,
-  Input,
   Image,
   Loader,
-  Dropdown
+  Card
 } from 'semantic-ui-react'
 
-import { createProduct, deleteProduct, getProducts, patchProduct } from '../api/products-api'
+import {  getProducts } from '../api/products-api'
 import Auth from '../auth/Auth'
 import { Product } from '../types/Product'
-
-const categories = [
-  { key: 'ar', value: 'Archids', text: 'Archids' },
-  { key: 'az', value: 'Azalea', text: 'Azalea' },
-  { key: 'cr', value: 'Carnation', text: 'Carnation' },
-  { key: 'dh', value: 'Dahlia', text: 'Dahlia' },
-  { key: 'gr', value: 'Gardenia', text: 'Gardenia' },
-  { key: 'pt', value: 'Petunia', text: 'Petunia' },
-  { key: 'rs', value: 'Rose', text: 'Rose' },
-  { key: 'tl', value: 'Tulipan', text: 'Tulipan' },
-]
 
 interface ProductsProps {
   auth: Auth
@@ -53,85 +38,6 @@ export class Store extends React.PureComponent<ProductsProps, ProductsState> {
     loadingProducts: true
   }
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductName: event.target.value })
-  }
-
-  handleCategoryChange = (event: React.SyntheticEvent<HTMLElement>, data:any) => {
-  this.setState({newProductCategory:data.value})
-}
-
-  handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductPrice: event.target.valueAsNumber })
-  }
-
-
-  handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductDescription: event.target.value })
-  }
-
-  handleStockChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newProductStock: event.target.valueAsNumber })
-  }
-
-
-  onEditButtonClick = (productId: string) => {
-    this.props.history.push(`/products/${productId}/edit`)
-  }
-
-
-  onProductCreate = async () => {
-    try {
-      const newProduct = await createProduct(this.props.auth.getIdToken(), {
-        name: this.state.newProductName,
-        category:this.state.newProductCategory,
-        price:this.state.newProductPrice,
-        description:this.state.newProductDescription,
-        stock:this.state.newProductStock
-      })
-      this.setState({
-        products: [...this.state.products, newProduct],
-        newProductName: '',
-        newProductCategory: '',
-        newProductPrice: 0,
-        newProductDescription: '',
-        newProductStock: 0
-      })
-    } catch {
-      alert('Product creation failed')
-    }
-  }
-
-  onProductDelete = async (productId: string) => {
-    try {
-      await deleteProduct(this.props.auth.getIdToken(), productId)
-      this.setState({
-        products: this.state.products.filter(product => product.productId !== productId)
-      })
-    } catch {
-      alert('Product deletion failed')
-    }
-  }
-
-  onProductCheck = async (pos: number) => {
-    try {
-      const product = this.state.products[pos]
-      await patchProduct(this.props.auth.getIdToken(), product.productId, {
-        name: product.name,
-        category:product.category,
-        price:product.price,
-        description:product.description,
-        stock:product.stock
-      })
-      this.setState({
-        products: update(this.state.products, {
-        })
-      })
-    } catch {
-      alert('Product deletion failed')
-    }
-  }
-
   async componentDidMount() {
     try {
       const products = await getProducts(this.props.auth.getIdToken())
@@ -156,60 +62,7 @@ export class Store extends React.PureComponent<ProductsProps, ProductsState> {
     )
   }
 
-  renderCreateProductInput() {
-    return (
-      <Grid.Row>
-        <h1>Floristify Store</h1>
-        <Grid.Column width={16}>
-        <Input
-            fluid
-            actionPosition="left"
-            placeholder="Name"
-            onChange={this.handleNameChange}
-          />
-          <Dropdown
-    placeholder='Select Category'
-    fluid
-    selection
-    options={categories}
-    value={this.state.newProductCategory}
-    onChange={this.handleCategoryChange}
-  />
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Price"
-            type="number"
-            onChange={this.handlePriceChange}
-          />
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Description"
-            onChange={this.handleDescriptionChange}
-          />
-          <Input
-            fluid
-            actionPosition="left"
-            placeholder="Stock"
-            type="number"
-            onChange={this.handleStockChange}
-          />
-       
-          <Button
-          color="green" inverted
-          fluid
-          onClick={this.onProductCreate}>
-          <Icon name="checkmark" /> Add Product
-          </Button>
-
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Divider />
-        </Grid.Column>
-      </Grid.Row>
-    )
-  }
+ 
 
   renderProducts() {
     if (this.state.loadingProducts) {
@@ -234,39 +87,31 @@ export class Store extends React.PureComponent<ProductsProps, ProductsState> {
       <Grid padded>
         {this.state.products.map((product, pos) => {
           return (
-            <Grid.Row key={product.productId}>
-            
-              <Grid.Column width={10} verticalAlign="middle">
-                {product.name}
-              </Grid.Column>
-              <Grid.Column width={3} floated="right">
-                {product.category}
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="blue"
-                  onClick={() => this.onEditButtonClick(product.productId)}
-                >
-                  <Icon name="pencil" />
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="red"
-                  onClick={() => this.onProductDelete(product.productId)}
-                >
-                  <Icon name="delete" />
-                </Button>
-              </Grid.Column>
-              {product.attachmentUrl && (
-                <Image src={product.attachmentUrl} size="small" wrapped />
-              )}
-              <Grid.Column width={16}>
-                <Divider />
-              </Grid.Column>
-            </Grid.Row>
+              <Grid.Column width={4} verticalAlign="middle">
+                
+                  <Card>
+                      {product.attachmentUrl && (
+                        <Image src={product.attachmentUrl} size="small" wrapped ui={false}  />
+                      )}
+
+                      <Card.Content>
+                        <Card.Header>{product.name}</Card.Header>
+                        <Card.Meta>
+                          <span className='date'>{product.category}</span>
+                        </Card.Meta>
+                        <Card.Description>
+                          {product.description}
+                        </Card.Description>
+                      </Card.Content>
+
+                      <Card.Content extra>
+                          <Icon name='dollar sign' />
+                          {product.price}
+                      </Card.Content>
+
+                  </Card>
+
+          </Grid.Column>
           )
         })}
       </Grid>

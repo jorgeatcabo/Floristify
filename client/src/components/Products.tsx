@@ -9,23 +9,15 @@ import {
   Input,
   Image,
   Loader,
-  Dropdown
+  Dropdown,
+  Header,
+  Container
 } from 'semantic-ui-react'
 
 import { createProduct, deleteProduct, getProducts, patchProduct } from '../api/products-api'
 import Auth from '../auth/Auth'
 import { Product } from '../types/Product'
-
-const categories = [
-  { key: 'ar', value: 'Archids', text: 'Archids' },
-  { key: 'az', value: 'Azalea', text: 'Azalea' },
-  { key: 'cr', value: 'Carnation', text: 'Carnation' },
-  { key: 'dh', value: 'Dahlia', text: 'Dahlia' },
-  { key: 'gr', value: 'Gardenia', text: 'Gardenia' },
-  { key: 'pt', value: 'Petunia', text: 'Petunia' },
-  { key: 'rs', value: 'Rose', text: 'Rose' },
-  { key: 'tl', value: 'Tulipan', text: 'Tulipan' },
-]
+import {categories} from '../data/categories'
 
 interface ProductsProps {
   auth: Auth
@@ -234,42 +226,89 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
       <Grid padded>
         {this.state.products.map((product, pos) => {
           return (
-            <Grid.Row key={product.productId}>
+        
+            <><Container>
+
+              <Grid.Row>
+
+                <Grid.Column width={16}>
+                  <Header textAlign="center" dividing size='huge'>
+                  {product.attachmentUrl && (
+                  <Image src={product.attachmentUrl} size="huge"  />
+                 )}
+                  </Header>
+                </Grid.Column>
+              
+              </Grid.Row>
+            </Container>
             
-              <Grid.Column width={10} verticalAlign="middle">
-                {product.name}
-              </Grid.Column>
+            <Grid.Row key={product.productId}>
+
               <Grid.Column width={3} floated="right">
-                {product.category}
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="blue"
-                  onClick={() => this.onEditButtonClick(product.productId)}
-                >
-                  <Icon name="pencil" />
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="red"
-                  onClick={() => this.onProductDelete(product.productId)}
-                >
-                  <Icon name="delete" />
-                </Button>
-              </Grid.Column>
-              {product.attachmentUrl && (
-                <Image src={product.attachmentUrl} size="small" wrapped />
-              )}
-              <Grid.Column width={16}>
-                <Divider />
-              </Grid.Column>
-            </Grid.Row>
+                  <Header textAlign="left" dividing>
+                    Name
+                  </Header>
+                  {product.name}
+                </Grid.Column>
+
+                <Grid.Column width={2} floated="right">
+                  <Header textAlign="left" dividing>
+                    Category
+                  </Header>
+                  {product.category}
+                </Grid.Column>
+
+                <Grid.Column width={2} floated="right">
+                  <Header textAlign="left" dividing>
+                    Price
+                  </Header>
+                  {product.price}
+                </Grid.Column>
+
+                <Grid.Column width={4} floated="right">
+                  <Header textAlign="left" dividing>
+                    Description
+                  </Header>
+                  {product.description}
+                </Grid.Column>
+
+                <Grid.Column width={2} floated="right">
+                  <Header textAlign="left" dividing>
+                    Stock
+                  </Header>
+                  {product.stock}
+                </Grid.Column>
+
+                <Grid.Column width={1} floated="right">
+                  <Button
+                    icon
+                    color="blue"
+                    onClick={() => this.onEditButtonClick(product.productId)}
+                  >
+                    <Icon name="pencil" />
+                  </Button>
+                </Grid.Column>
+
+                <Grid.Column width={1} floated="right">
+                  <Button
+                    icon
+                    color="red"
+                    onClick={() => this.onProductDelete(product.productId)}
+                  >
+                    <Icon name="delete" />
+                  </Button>
+                </Grid.Column>
+
+                <Grid.Column width={16}>
+                  <Divider />
+                </Grid.Column>
+              </Grid.Row></>
+          
           )
+          
         })}
       </Grid>
+      
     )
   }
 
