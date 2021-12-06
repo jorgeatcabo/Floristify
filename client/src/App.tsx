@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Link, Route, Router, Switch } from 'react-router-dom'
-import { Grid, Menu, Segment,Icon } from 'semantic-ui-react'
+import { Grid, Menu, Segment,Icon,Button } from 'semantic-ui-react'
 
 import Auth from './auth/Auth'
 import { EditProduct } from './components/EditProduct'
+import { Store } from './components/Store'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Products } from './components/Products'
+
+
 
 export interface AppProps {}
 
@@ -42,11 +45,8 @@ export default class App extends Component<AppProps, AppState> {
             
               <Grid.Column width={16}>
                 <Router history={this.props.history}>
-
-                  <h1>Floristify Backend</h1>
-
                   {this.generateMenu()}
-
+                  
                   {this.generateCurrentPage()}
                 </Router>
               </Grid.Column>
@@ -64,12 +64,12 @@ export default class App extends Component<AppProps, AppState> {
 
         <Menu.Item name="home" >
           <Icon name='home' />
-          <Link to="/">Home</Link>
+          <Link to="/">Backend</Link>
         </Menu.Item>
        
           {this.logInLogOutButton()}
 
-          {this.storetButton()}
+          {this.storeButton()}
            
     </Menu>
     )
@@ -93,23 +93,32 @@ export default class App extends Component<AppProps, AppState> {
     }
   }
 
-  storetButton() {
+  onStoreClick = (userId: string) => {
+    this.props.history.push(`/store/${userId}`)
+  }
+  
+  storeButton() {
     if (this.props.auth.isAuthenticated()) {
       return (
-        <Menu.Item name="shopping cart" >
-        <Icon name='shopping cart' />
-        <Link to="/store" target='_blank'>My Store</Link>
-      </Menu.Item>  
-      )
+        <Menu.Item name="shopping cart" onClick={() => this.onStoreClick('google-oauth2|115305377957741492596')} >
 
+        <Icon name='shopping cart' />
+        {/* <Link to={{pathname: `/store/google-oauth2|115305377957741492596`}} target='_blank'>
+          My Store
+        </Link > */}
+          My Store
+        </Menu.Item>  
+      )
     }
   }
   generateCurrentPage() {
+    
     if (!this.props.auth.isAuthenticated()) {
       return <LogIn auth={this.props.auth} />
     }
 
     return (
+      
       <Switch>
         <Route
           path="/"
@@ -126,11 +135,11 @@ export default class App extends Component<AppProps, AppState> {
             return <EditProduct {...props} auth={this.props.auth} />
           }}
         />
-        <Route
-          path="/store"
+         <Route
+          path="/store/:userId"
           exact
           render={(props) => {
-            return <Products {...props} auth={this.props.auth} />
+            return <Store {...props} auth={this.props.auth} />
           }}
         />
         <Route component={NotFound} />

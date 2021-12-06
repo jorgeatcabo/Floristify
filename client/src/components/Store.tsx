@@ -42,7 +42,7 @@ interface ProductsState {
   loadingProducts: boolean
 }
 
-export class Products extends React.PureComponent<ProductsProps, ProductsState> {
+export class Store extends React.PureComponent<ProductsProps, ProductsState> {
   state: ProductsState = {
     products: [],
     newProductName: '',
@@ -148,8 +148,8 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
     return (
       <div>
      
-        {this.renderCreateProductInput()}
-        <h1>Products</h1>
+        
+        <h1>Floristify Store</h1>
         {this.renderProducts()}
 
       </div>
@@ -159,7 +159,7 @@ export class Products extends React.PureComponent<ProductsProps, ProductsState> 
   renderCreateProductInput() {
     return (
       <Grid.Row>
-        <h1>Floristify Backend</h1>
+        <h1>Floristify Store</h1>
         <Grid.Column width={16}>
         <Input
             fluid
