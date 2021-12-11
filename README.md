@@ -336,6 +336,8 @@ This should start a development server with the React application that will inte
 ---
 
 ## Mockup images
+![Serverles project deployment](assets/deployment.JPG)
+
 ![Main window](assets/Image1.JPG)
 
 ![Login window](assets/login.JPG)
@@ -344,14 +346,26 @@ This should start a development server with the React application that will inte
 
 ## Animations
 
+1. This animation shows the deployment of the serverless project.
+
+![Deployment of the serverless project](./assets/animation4.mp4)
+
+
 1. This animation shows how to login to the app, and also how a new option is added to the header menu that allows to show the `products` in the frontend store page.
 
-![Login and products frontend store page](./assets/login.gif)
+![Login and products frontend store page](./assets/animation1.gif)
 
-2. This animation shows how to add a `product`, upload an image and delete a `product`.
+2. This animation shows how to add a `product` and upload an image.
 
-![Add product, upload an image and delete a product](./assets/product.gif)
+![Add a product, upload an image and delete a product](./assets/animation2.gif)
 
+3. This animation shows how to delete a `product`.
+
+![Add a product, upload an image and delete a product](./assets/animation3.gif)
+
+4. This animation shows the deployment of the serverless project.
+
+![Add a product, upload an image and delete a product](./assets/animation3.gif)
 
 ---
 
