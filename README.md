@@ -349,6 +349,7 @@ This should start a development server with the React application that will inte
 1. This animation shows the deployment of the serverless project.
 
 ![Deployment of the serverless project](./assets/animation4.mp4)
+![Deployment of the serverless project](animation4.mp4)
 
 
 1. This animation shows how to login to the app, and also how a new option is added to the header menu that allows to show the `products` in the frontend store page.
