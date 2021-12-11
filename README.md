@@ -348,7 +348,11 @@ This should start a development server with the React application that will inte
 
 1. This animation shows the deployment of the serverless project.
 
-https://github.com/jorgeatcabo/Floristify/blob/35b3365e0ee6ce7ce46ddcf2b34d51c42f98089b/animation4.mp4
+
+
+
+https://user-images.githubusercontent.com/12957157/145690070-f2e1d149-40f4-45c4-895f-eaa0eb7c238e.mp4
+
 
 
 1. This animation shows how to login to the app, and also how a new option is added to the header menu that allows to show the `products` in the frontend store page.
