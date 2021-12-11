@@ -337,8 +337,8 @@ This should start a development server with the React application that will inte
 
 ## Mockup images
 
-![Main window](./client/src/assets/image1.jpg)
-![Login window](./client/src/assets/login.jpg)
+![Main window](./assets/image1.jpg)
+![Login window](./assets/login.jpg)
 
 ---
 
@@ -346,11 +346,11 @@ This should start a development server with the React application that will inte
 
 1. This animation shows how to login to the app, and also how a new option is added to the header menu that allows to show the `products` in the frontend store page.
 
-![Login and products frontend store page](./client/src/assets/login.gif)
+![Login and products frontend store page](./assets/login.gif)
 
 2. This animation shows how to add a `product`, upload an image and delete a `product`.
 
-![Add product, upload an image and delete a product](./client/src/assets/product.gif)
+![Add product, upload an image and delete a product](./assets/product.gif)
 
 ---
 
