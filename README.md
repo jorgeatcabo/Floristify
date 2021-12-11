@@ -341,8 +341,6 @@ This should start a development server with the React application that will inte
 
 ![Login window](./assets/login.jpg)
 
-![Multiple Devices](./assets/image1.jpg)
-
 ---
 
 ## Animations
