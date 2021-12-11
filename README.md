@@ -248,32 +248,32 @@ logger.info('User was authorized', {
 To store products, it is used a DynamoDB table with local secondary index(es).It is created a DynamoDB resource like this:
 
 ```yml
-    ProductsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: userId
-            AttributeType: S
-          - AttributeName: productId
-            AttributeType: S
-          - AttributeName: createdAt
-            AttributeType: S            
+ProductsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    AttributeDefinitions:
+      - AttributeName: userId
+        AttributeType: S
+      - AttributeName: productId
+        AttributeType: S
+      - AttributeName: createdAt
+        AttributeType: S
+    KeySchema:
+      - AttributeName: userId
+        KeyType: HASH
+      - AttributeName: productId
+        KeyType: RANGE
+    BillingMode: PAY_PER_REQUEST
+    TableName: ${self:provider.environment.PRODUCTS_TABLE}
+    LocalSecondaryIndexes:
+      - IndexName: ${self:provider.environment.PRODUCTS_CREATED_AT_INDEX}
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
-          - AttributeName: productId
+          - AttributeName: createdAt
             KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.PRODUCTS_TABLE}
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.PRODUCTS_CREATED_AT_INDEX}
-            KeySchema:
-              - AttributeName: userId
-                KeyType: HASH
-              - AttributeName: createdAt
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
+        Projection:
+          ProjectionType: ALL
 ```
 
 To query an index it is used the `query()` method like:
@@ -337,9 +337,9 @@ This should start a development server with the React application that will inte
 
 ## Mockup images
 
-![Main window](./assets/image1.jpg)
+![Main window](.\assets\image1.jpg)
 
-![Login window](./assets/login.jpg)
+![Login window](.\assets\login.jpg)
 
 ---
 
@@ -352,7 +352,6 @@ This should start a development server with the React application that will inte
 2. This animation shows how to add a `product`, upload an image and delete a `product`.
 
 ![Add product, upload an image and delete a product](./assets/product.gif)
-
 
 ---
 
