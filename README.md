@@ -2,11 +2,31 @@
 
 This project uses AWS Lambda and Serverless framework.
 
-# Functionality of the application
+## Table of Contents
 
-This application allow creating/removing/updating/fetching florist products. Each prodcut can have an attachment image. Each user only has access to products that he/she has created.
+- [Functionality](#functionality 'Functionality')
+- [Products](#products 'Products')
+- [Prerequisites](#prerequisites 'Prerequisites')
+- [Functions implemented](#functions-implemented 'Functions implemented')
+- [Frontend](#frontend 'Frontend')
+- [Authentication](#authentication 'Authentication')
+- [Best practices](#best-practices 'Best practices')
+- [Storage](#Storage 'Storage')
+- [How to run the application](#how-to-run-the-application 'How to run the application')
+- [Mockup Images](#mockup-images 'Mockup')
+- [Animation](#animation 'Animation')
+- [Contributor](#contributor 'Contributor')
+- [Questions](#questions 'Questions')
 
-# Products
+---
+
+## Functionality
+
+This application allows creating/removing/updating/fetching florist products. Each product can have an attachment image. Each user only has access to products that he/she has created.
+
+---
+
+## Products
 
 The application stores products, and each product contains the following fields:
 
@@ -20,6 +40,8 @@ The application stores products, and each product contains the following fields:
 - `attachmentUrl` (string) - a URL pointing to an image attached to a product
 
 It is also store an id of a user who created a product.
+
+---
 
 ## Prerequisites
 
@@ -42,7 +64,21 @@ It is also store an id of a user who created a product.
   sls config credentials --provider aws --key YOUR_ACCESS_KEY_ID --secret YOUR_SECRET_KEY --profile serverless
   ```
 
-# Functions to be implemented
+---
+
+## Technologies
+
+| Back-end        | Front-end   |
+| --------------- | ----------- |
+| AWS Lambda      | React       |
+| AWS API Gateway | Typescript  |
+| JWT             | Semantic UI |
+| DynamoDB        |             |
+|                 |             |
+
+---
+
+## Functions implemented
 
 To implement this project, it is necessary to implement the following functions and configure them in the `serverless.yml` file:
 
@@ -93,9 +129,9 @@ It receives a new product to be created in JSON format that looks like this:
 
 ```json
 {
-  "name": "Tropicali",  
+  "name": "Tropicali",
   "category": "Archid",
-  "price": 59,        
+  "price": 59,
   "description": "This purple orchid comes in a slate blue Ecopot and is a perfect gift plant.",
   "stock": 4
 }
@@ -105,8 +141,7 @@ It returns a new product that looks like this:
 
 ```json
 {
-  "item": 
-  {
+  "item": {
     "attachmentUrl": "https://serverless-floristify-images-182620489580-dev.s3.amazonaws.com/2c76ac4e-de2c-4599-aed9-25d0ef8bac7c.jpg",
     "category": "Archid",
     "createdAt": "2021-12-06T18:51:58.159Z",
@@ -125,9 +160,9 @@ It receives an object that contains three fields that can be updated in a TODO i
 
 ```json
 {
-  "name": "Tropicali",  
+  "name": "Tropicali",
   "category": "Archid",
-  "price": 59,        
+  "price": 59,
   "description": "This purple orchid comes in a slate blue Ecopot and is a perfect gift plant.",
   "stock": 4
 }
@@ -157,7 +192,9 @@ An id of a user is extracted from a JWT token passed by a client.
 
 It is added necessary resources to the `resources` section of the `serverless.yml` file such as DynamoDB table and S3 bucket.
 
-# Frontend
+---
+
+## Frontend
 
 The `client` folder contains a web application that uses the API developed in the project.
 
@@ -174,16 +211,22 @@ export const authConfig = {
 }
 ```
 
+---
+
 ## Authentication
 
 It is implemented authentication in this application, it is necessary to create an Auth0 application and copy "domain" and "client id" to the `config.ts` file in the `client` folder. It is recommended use asymmetrically encrypted JWT tokens.
 
-# Best practices
+---
+
+## Best practices
 
 ## Validating HTTP requests
+
 It is validated incoming HTTP requests using request validation in API Gateway by providing request schemas in function definitions.
 
 ## Application monitoring
+
 The project application generates application-level metrics.
 
 ## Logging
@@ -198,38 +241,39 @@ logger.info('User was authorized', {
 })
 ```
 
+---
 
-# Storage
+## Storage
 
 To store products, it is used a DynamoDB table with local secondary index(es).It is created a DynamoDB resource like this:
 
 ```yml
-TodosTable:
-  Type: AWS::DynamoDB::Table
-  Properties:
-    AttributeDefinitions:
-      - AttributeName: partitionKey
-        AttributeType: S
-      - AttributeName: sortKey
-        AttributeType: S
-      - AttributeName: indexKey
-        AttributeType: S
-    KeySchema:
-      - AttributeName: partitionKey
-        KeyType: HASH
-      - AttributeName: sortKey
-        KeyType: RANGE
-    BillingMode: PAY_PER_REQUEST
-    TableName: ${self:provider.environment.TODOS_TABLE}
-    LocalSecondaryIndexes:
-      - IndexName: ${self:provider.environment.INDEX_NAME}
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: productId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S            
         KeySchema:
-          - AttributeName: partitionKey
+          - AttributeName: userId
             KeyType: HASH
-          - AttributeName: indexKey
+          - AttributeName: productId
             KeyType: RANGE
-        Projection:
-          ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.PRODUCTS_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.PRODUCTS_CREATED_AT_INDEX}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
 ```
 
 To query an index it is used the `query()` method like:
@@ -247,9 +291,14 @@ await this.dynamoDBClient
   .promise()
 ```
 
-# How to run the application
+---
+
+## How to run the application
+
+For local testing use: "git clone git@github.com:jorgeatcabo/Floristify.git"
 
 ## Deploy the Backend
+
 To deploy the backend application, run the following commands:
 
 ```
@@ -271,6 +320,7 @@ sls deploy -v --aws-profile serverless
 ```
 
 ## Run the Frontend
+
 Once you've set the parameters in the client/src/config.ts file, run the following commands:
 
 ```
@@ -283,3 +333,35 @@ npm run start
 
 This should start a development server with the React application that will interact with the serverless application.
 
+---
+
+## Mockup images
+
+![Main window](./client/src/assets/image1.jpg)
+![Login window](./client/src/assets/login.jpg)
+
+---
+
+## Animations
+
+1. This animation shows how to login to the app, and also how a new option is added to the header menu that allows to show the `products` in the frontend store page.
+
+![Login and products frontend store page](./client/src/assets/login.gif)
+
+2. This animation shows how to add a `product`, upload an image and delete a `product`.
+
+![Add product, upload an image and delete a product](./client/src/assets/product.gif)
+
+---
+
+## Contributor
+
+Jorge Soto (https://github.com/jorgeatcabo)
+
+---
+
+## Questions
+
+[Contact Me](mailto:san_lucas2005@yahoo.com)
+
+---
