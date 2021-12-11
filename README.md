@@ -338,7 +338,10 @@ This should start a development server with the React application that will inte
 ## Mockup images
 
 ![Main window](./assets/image1.jpg)
+
 ![Login window](./assets/login.jpg)
+
+![Multiple Devices](./assets/image1.jpg)
 
 ---
 
@@ -351,6 +354,7 @@ This should start a development server with the React application that will inte
 2. This animation shows how to add a `product`, upload an image and delete a `product`.
 
 ![Add product, upload an image and delete a product](./assets/product.gif)
+
 
 ---
 
