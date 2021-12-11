@@ -337,7 +337,7 @@ This should start a development server with the React application that will inte
 
 ## Mockup images
 
-![](./assets/image1.jpg)
+<img alt="WP Reliable Cookie Bar logo" src="./assets/image1.jpg?raw=true" height="400" width="700" align="center">
 
 ---
 
