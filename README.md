@@ -336,7 +336,8 @@ This should start a development server with the React application that will inte
 ---
 
 ## Mockup images
-![Main window](assets/image1.jpg)
+![Main window](assets/Image1.jpg)
+
 
 ---
 
